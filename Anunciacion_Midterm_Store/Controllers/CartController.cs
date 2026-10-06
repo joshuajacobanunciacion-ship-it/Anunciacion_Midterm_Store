@@ -33,7 +33,7 @@ namespace Anunciacion_Midterm_Store.Controllers
             }
             else
             {
-                item.Quantity++;   // already in cart, so just add one more
+                item.Quantity++;   
             }
             _db.SaveChanges();
             return RedirectToAction("Index");
