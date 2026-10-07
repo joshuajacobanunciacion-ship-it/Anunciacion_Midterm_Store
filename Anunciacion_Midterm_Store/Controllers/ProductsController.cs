@@ -9,9 +9,19 @@ namespace Anunciacion_Midterm_Store.Controllers
         private readonly ApplicationDbContext _db;
         public ProductsController(ApplicationDbContext db) { _db = db; }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-            return View(_db.Products.ToList());
+            ViewData["CurrentFilter"] = searchString;
+
+            var products = _db.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                var search = searchString.Trim().ToLower();
+                products = products.Where(p => p.Name.ToLower().Contains(search));
+            }
+
+            return View(products.ToList());
         }
 
         public IActionResult Create()
